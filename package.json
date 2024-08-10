@@ -17,6 +17,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dotenv": "^16.4.5",
     "encoding": "^0.1.13",
     "langchain": "^0.2.14",
     "llamaindex": "^0.5.16",
@@ -26,6 +27,7 @@
     "pdfobject": "^2.3.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-markdown": "^9.0.1",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7"
   },

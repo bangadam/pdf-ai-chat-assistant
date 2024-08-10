@@ -19,48 +19,55 @@ export default function Home() {
     setIsLoading(true);
 
     try {
-      setMessages([...messages, { role: "human", statement: input }]);
-      const { response, metadata } = await chat(input);
-      setMessages([
+      const updatedMessages = [
         ...messages,
-        { role: "ai", statement: response },
         { role: "human", statement: input },
-      ]);
+      ];
+      setMessages(updatedMessages);
 
-      if (metadata.length) {
+      const { response, metadata } = await chat(input);
+
+      const aiMessage = { role: "ai", statement: response };
+      setMessages([...updatedMessages, aiMessage]);
+
+      if (metadata?.length) {
         setPage(metadata[0].loc.pageNumber);
       }
+
       setLoadingMessage("Got a response from AI");
     } catch (error) {
-      console.error(error);
-      setLoadingMessage("Failed to get a response from AI");
+      console.error("Error during chat:", error);
+      // setLoadingMessage("Failed to get a response from AI");
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    setLoadingMessage("Processing PDF...");
-    setIsLoading(true);
     const processPdfAsync = async () => {
-      if (selectedFile) {
+      if (!selectedFile) return;
+
+      setLoadingMessage("Processing PDF...");
+      setIsLoading(true);
+
+      try {
         const loader = new WebPDFLoader(selectedFile, {
           parsedItemSeparator: " ",
         });
-        const lcDocs = (await loader.load()).map((item) => ({
+        const loadedDocs = await loader.load();
+
+        const lcDocs = loadedDocs.map((item) => ({
           pageContent: item.pageContent,
           metadata: item.metadata,
         }));
 
-        try {
-          await processDocs(lcDocs);
-          setLoadingMessage("PDF processed successfully");
-        } catch (error) {
-          console.error(error);
-          setLoadingMessage("Failed to process PDF");
-        } finally {
-          setIsLoading(false);
-        }
+        await processDocs(lcDocs);
+        setLoadingMessage("PDF processed successfully");
+      } catch (error) {
+        console.error("Error processing PDF:", error);
+        setLoadingMessage("Failed to process PDF");
+      } finally {
+        setIsLoading(false);
       }
     };
 

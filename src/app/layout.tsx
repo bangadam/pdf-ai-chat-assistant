@@ -21,13 +21,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
-        )}
-      >
-        {children}
+      <body className={cn(fontSans, "antialiased bg-gray-100")}>
+        <div className="flex flex-col p-4 md:p-12 h-[100vh]">{children}</div>
       </body>
     </html>
   );

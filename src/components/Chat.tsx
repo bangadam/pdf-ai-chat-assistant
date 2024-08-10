@@ -1,7 +1,7 @@
 "use client";
 
 import { CircleX, LoaderCircle, Trash } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { resetChatEngine } from "@/app/actions";
@@ -31,9 +31,25 @@ const Chat: React.FC<ChatProps> = ({
   setSelectedFile,
 }) => {
   const [input, setInput] = useState<string>("");
+
   const messageClass = "rounded-3xl p-3 block relative max-w-max";
   const aiMessageClass = `text-start rounded-bl bg-gray-300 float-left text-gray-700 ${messageClass}`;
   const humanMessageClass = `text-end rounded-br bg-blue-400 text-gray-50 float-right ${messageClass}`;
+
+  // Ref to the messages container
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  // Function to scroll to bottom
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const closePDF = async () => {
     await resetChatEngine();
@@ -48,9 +64,16 @@ const Chat: React.FC<ChatProps> = ({
     setPage(1);
   };
 
+  const handleSendMessage = () => {
+    if (input.trim()) {
+      startChat(input);
+      setInput("");
+    }
+  };
+
   return (
     <div className="h-full flex flex-col justify-stretch w-[42vw] border-2 border-gray-200 rounded-xl p-2">
-      <div className="flex gap2 justify-between mx-4">
+      <div className="flex justify-between mx-4">
         <span className="flex gap-2 mt-2 text-gray-500">
           {isLoading && <LoaderCircle className="animate-spin" />}
           {loadingMessage}
@@ -77,45 +100,40 @@ const Chat: React.FC<ChatProps> = ({
       </div>
 
       <hr className="mt-3" />
-      <div className="flex flex-col justify-end gap-3 flex-grow">
-        <div className="flex-grow h-max mt-4">
-          {messages.map((message, index) => {
-            return (
-              <div className="w-full" key={index}>
-                <div
-                  className={
-                    message.role === "ai" ? aiMessageClass : humanMessageClass
-                  }
-                >
-                  {message.statement}
-                </div>
-              </div>
-            );
-          })}
-
-          <div className="flex gap-2 mx-2 items-center justify-between">
-            <Input
-              disabled={isLoading}
-              className="text-md"
-              type="text"
-              placeholder="Type something..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-            />
-            <div className="flex gap-2 items-center">
-              <Button
-                onClick={() => {
-                  startChat(input);
-                  setInput("");
-                }}
-                variant="default"
-                disabled={isLoading}
-              >
-                Send
-              </Button>
-              {isLoading && <LoaderCircle className="animate-spin" />}
+      <div className="flex flex-col gap-3 flex-grow overflow-y-auto mt-3">
+        {messages.map((message, index) => (
+          <div key={index} className="w-full">
+            <div
+              className={
+                message.role === "ai" ? aiMessageClass : humanMessageClass
+              }
+            >
+              {message.statement}
             </div>
           </div>
+        ))}
+        {/* This div ensures scrolling to the bottom */}
+        <div ref={messagesEndRef} />
+      </div>
+      <div className="flex gap-2 mx-2 items-center justify-between">
+        <Input
+          disabled={isLoading}
+          className="text-md"
+          type="text"
+          placeholder="Send a message..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+        />
+        <div className="flex gap-2 items-center">
+          <Button
+            variant={"default"}
+            disabled={isLoading}
+            onClick={handleSendMessage}
+          >
+            Send
+          </Button>
+          {isLoading && <LoaderCircle className="animate-spin" />}
         </div>
       </div>
     </div>

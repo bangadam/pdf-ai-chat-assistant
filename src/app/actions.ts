@@ -1,6 +1,6 @@
 "use server";
 
-import { Document } from "llamaindex/Node";
+import { Document } from "@llamaindex/core/schema";
 import { VectorStoreIndex } from "llamaindex/indices/vectorStore/index";
 import { ContextChatEngine } from "llamaindex/engines/chat/ContextChatEngine";
 import { OllamaEmbedding } from "llamaindex/embeddings/OllamaEmbedding";
@@ -18,10 +18,9 @@ const embedModel = new OllamaEmbedding({
 
 const llm = new Ollama({
   model: "llama3.1",
-  // model: "gemma",
-  modelMetadata: {
-    temperature: 0,
-    maxTokens: 25,
+  options: {
+    maxTokens: 100,
+    temperature: 0.5,
   },
 });
 
