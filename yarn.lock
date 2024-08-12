@@ -1827,6 +1827,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/pdfobject@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@types/pdfobject/-/pdfobject-2.2.5.tgz#d6a8c66038f3b473ab86556dc7262ceac1576040"
+  integrity sha512-7gD5tqc/RUDq0PyoLemL0vEHxBYi+zY0WVaFAx/Y0jBsXFgot1vB9No1GhDZGwRGJMCIZbgAb74QG9MTyTNU/g==
+
 "@types/pg@^8.11.6":
   version "8.11.6"
   resolved "https://registry.yarnpkg.com/@types/pg/-/pg-8.11.6.tgz#a2d0fb0a14b53951a17df5197401569fb9c0c54b"
@@ -5544,6 +5549,11 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
+path2d@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/path2d/-/path2d-0.2.1.tgz#faf98e5e2222541805a6ac232adc026332330765"
+  integrity sha512-Fl2z/BHvkTNvkuBzYTpTuirHZg6wW9z8+4SND/3mDTEcYbbNKWAy21dz9D3ePNNwrrK8pqZO5vLPZ1hLF6T7XA==
+
 pathe@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/pathe/-/pathe-1.1.2.tgz#6c4cb47a945692e48a1ddd6e4094d170516437ec"
@@ -5556,6 +5566,14 @@ pdf-parse@^1.1.1:
   dependencies:
     debug "^3.1.0"
     node-ensure "^0.0.0"
+
+pdfjs-dist@^4.5.136:
+  version "4.5.136"
+  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-4.5.136.tgz#4c6f67252d4e23212f43b36537a142171ebfb1ca"
+  integrity sha512-V1BALcAN/FmxBEShLxoP73PlQZAZtzlaNfRbRhJrKvXzjLC5VaIlBAQUJuWP8iaYUmIdmdLHmt3E2TBglxOm3w==
+  optionalDependencies:
+    canvas "^2.11.2"
+    path2d "^0.2.1"
 
 pdfobject@^2.3.0:
   version "2.3.0"

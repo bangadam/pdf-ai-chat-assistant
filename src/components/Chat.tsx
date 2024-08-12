@@ -5,6 +5,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { resetChatEngine } from "@/app/actions";
+import ReactMarkdown from "react-markdown";
 
 export interface ChatMessage {
   role: "human" | "ai";
@@ -34,7 +35,7 @@ const Chat: React.FC<ChatProps> = ({
 
   const messageClass = "rounded-3xl p-3 block relative max-w-max";
   const aiMessageClass = `text-start rounded-bl bg-gray-300 float-left text-gray-700 ${messageClass}`;
-  const humanMessageClass = `text-end rounded-br bg-blue-400 text-gray-50 float-right ${messageClass}`;
+  const humanMessageClass = `text-end rounded-br bg-slate-400 text-gray-50 float-right ${messageClass}`;
 
   // Ref to the messages container
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -108,7 +109,11 @@ const Chat: React.FC<ChatProps> = ({
                 message.role === "ai" ? aiMessageClass : humanMessageClass
               }
             >
-              {message.statement}
+              {message.role === "ai" ? (
+                <ReactMarkdown>{message.statement}</ReactMarkdown>
+              ) : (
+                message.statement
+              )}
             </div>
           </div>
         ))}

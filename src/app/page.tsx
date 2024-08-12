@@ -37,7 +37,7 @@ export default function Home() {
       setLoadingMessage("Got a response from AI");
     } catch (error) {
       console.error("Error during chat:", error);
-      // setLoadingMessage("Failed to get a response from AI");
+      setLoadingMessage("");
     } finally {
       setIsLoading(false);
     }
