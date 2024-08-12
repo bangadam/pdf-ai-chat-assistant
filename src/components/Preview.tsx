@@ -27,7 +27,9 @@ const Preview: React.FC<PreviewProps> = ({ fileToPreview, page = 1 }) => {
       setBase64(reader.result as string);
     };
     reader.readAsDataURL(fileToPreview);
-    pdfobject.embed(base64, "#pdfobject", options);
+    if (base64) {
+      pdfobject.embed(base64, "#pdfobject", options);
+    }
   }, [page, base64]);
 
   return <div className="flex-grow roundex-xl" id="pdfobject"></div>;
