@@ -64,6 +64,7 @@ export async function chat(query: string) {
       message: query,
     });
     const response = queryResult.response;
+    // @ts-ignore
     const metadata = queryResult.sourceNodes?.map((node) => node.metadata);
     // const nodesText = queryResult.sourceNodes?.map(node => node.getContent(MetadataMode.LLM))
     return { response, metadata };
