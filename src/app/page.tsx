@@ -23,11 +23,13 @@ export default function Home() {
         ...messages,
         { role: "human", statement: input },
       ];
+
+      // @ts-ignore
       setMessages(updatedMessages);
-
+      // @ts-ignore
       const { response, metadata } = await chat(input);
-
       const aiMessage = { role: "ai", statement: response };
+      // @ts-ignore
       setMessages([...updatedMessages, aiMessage]);
 
       if (metadata?.length) {
