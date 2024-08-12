@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
+  output: "standalone",
   webpack: (config, { isServer }) => {
     config.resolve.alias = {
       ...config.resolve.alias,
