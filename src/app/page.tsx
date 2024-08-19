@@ -19,17 +19,22 @@ export default function Home() {
     setIsLoading(true);
 
     try {
-      const updatedMessages = [
+      const updatedMessages: ChatMessage[] = [
         ...messages,
         { role: "human", statement: input },
       ];
 
-      // @ts-ignore
       setMessages(updatedMessages);
-      // @ts-ignore
-      const { response, metadata } = await chat(input);
-      const aiMessage = { role: "ai", statement: response };
-      // @ts-ignore
+      const chatResponse = await chat(input);
+
+      if (!chatResponse) {
+        setLoadingMessage("Failed to get a response from AI");
+        return;
+      }
+
+      const { response, metadata } = chatResponse;
+
+      const aiMessage: ChatMessage = { role: "ai", statement: response };
       setMessages([...updatedMessages, aiMessage]);
 
       if (metadata?.length) {
